@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Timetable Generator</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <style>
+        /* Your existing CSS styling */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", sans-serif; }
+        body { background: linear-gradient(135deg, #667eea, #764ba2); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .card { background: #ffffff; padding: 40px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); width: 100%; max-width: 600px; }
+        h2, h3 { color: #333; margin-bottom: 20px; text-align: center; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        .btn-generate { width: 100%; padding: 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
+        .btn-generate:hover { background: #764ba2; }
+        hr { margin: 30px 0; border: 0; border-top: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Step 1: Timetable </h2>
+
+        <form method="POST">
+            <section>
+                <h3>Theory Subjects</h3>
+                <label>How many theory subjects?</label>
+                <input type="number" name="num_theory" id="num_theory" required min="0">
+                <div id="theory_section"></div>
+            </section>
+
+            <hr>
+
+            <section>
+                <h3>Lab Subjects</h3>
+                <label>How many lab subjects?</label>
+                <input type="number" name="num_lab" id="num_lab" required min="0">
+                <div id="lab_section"></div>
+            </section>
+
+            <button type="submit" class="btn-generate">Generate Timetable</button>
+        </form>
+    </div>
+
+    <script>
+        // Logic to generate input fields dynamically
+        document.getElementById("num_theory").addEventListener("input", function(){
+            let count = this.value;
+            let container = document.getElementById("theory_section");
+            container.innerHTML = "";
+            for(let i=0; i<count; i++){
+                container.innerHTML += `
+                    <div style="border-left: 3px solid #667eea; padding-left: 10px; margin-bottom: 10px;">
+                        <strong>Theory ${i+1}</strong>
+                        <input type="text" name="name_${i}" placeholder="Subject Name (e.g., OOSE)" required>
+                        <input type="number" name="hours_${i}" placeholder="Total Hours (e.g., 4)" required>
+                    </div>
+                `;
+            }
+        });
+
+        document.getElementById("num_lab").addEventListener("input", function(){
+            let count = this.value;
+            let container = document.getElementById("lab_section");
+            container.innerHTML = "";
+            for(let i=0; i<count; i++){
+                container.innerHTML += `
+                    <div style="border-left: 3px solid #764ba2; padding-left: 10px; margin-bottom: 10px;">
+                        <strong>Lab ${i+1}</strong>
+                        <input type="text" name="lab_name_${i}" placeholder="Lab Name (e.g., Networks Lab)" required>
+                        <input type="number" name="lab_hours_${i}" placeholder="Total Hours (e.g., 2)" required>
+                    </div>
+                `;
+            }
+        });
+    </script>
+    
+</body>
+
+</html>

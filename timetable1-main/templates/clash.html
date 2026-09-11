@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clash Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="center">
+
+<div class="clash-card">
+
+    <h2>Clash Detection System</h2>
+    <p>Upload two timetables (PDF / Image) to detect and resolve subject clashes automatically.</p>
+
+    <form action="{{ url_for('check_clash') }}" method="POST" enctype="multipart/form-data">
+
+        <div class="upload-row">
+            <div class="upload-box">
+                <h3>Upload Timetable 1</h3>
+                <input type="file" name="tt1_file" accept=".pdf,.png,.jpg,.jpeg,.txt" required>
+            </div>
+
+            <div class="upload-box">
+                <h3>Upload Timetable 2</h3>
+                <input type="file" name="tt2_file" accept=".pdf,.png,.jpg,.jpeg,.txt" required>
+            </div>
+        </div>
+
+        <div class="code-row">
+            <input type="text" name="code1" placeholder="Subject Code 1 (TT1)" required>
+            <input type="text" name="code2" placeholder="Subject Code 2 (TT2)" required>
+        </div>
+
+        <button type="submit" class="btn-check">Check Clash</button>
+
+    </form>
+
+    <!-- MESSAGE -->
+    {% if message %}
+        <div class="message">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <!-- RESOLUTION -->
+    {% if resolution %}
+        <div class="resolution-box">
+            <h3>Suggested Resolution Steps:</h3>
+            <ul>
+                {% for step in resolution %}
+                    <li>{{ step }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- MANUAL OPTIONS -->
+    {% if manual_options %}
+        <div class="resolution-box">
+            <h4>Manual Options:</h4>
+            <ul>
+                {% for opt in manual_options %}
+                    <li>{{ opt }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- TIMETABLE DISPLAY -->
+    {% if timetable1 and timetable2 %}
+    <div style="display:flex; gap:100px; margin-top:30px;">
+
+        <div>
+            <h3>Timetable 1</h3>
+            {% for day, periods in timetable1.items() %}
+                <b>{{ day }}</b>
+                <ul>
+                    {% for period, subject in periods.items() %}
+                        <li>{{ period }} - {{ subject }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+
+        <div>
+            <h3>Timetable 2</h3>
+            {% for day, periods in timetable2.items() %}
+                <b>{{ day }}</b>
+                <ul>
+                    {% for period, subject in periods.items() %}
+                        <li>{{ period }} - {{ subject }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+
+    </div>
+    {% endif %}
+
+    <br>
+    <a href="/dashboard" class="back-link">⬅ Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>

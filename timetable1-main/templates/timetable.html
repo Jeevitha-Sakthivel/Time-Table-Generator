@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Timetable</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Generated Timetable</h2>
+
+<table>
+    <tr>
+        <th>Day</th>
+        <th>P1</th>
+        <th>P2</th>
+        <th>Break</th>
+        <th>P3</th>
+        <th>P4</th>
+        <th>Lunch</th>
+        <th>P5</th>
+        <th>P6</th>
+        <th>P7</th>
+    </tr>
+
+    {% for day, periods in timetable.items() %}
+    <tr>
+        <td>{{ day }}</td>
+        <td>{{ periods.get('P1','') }}</td>
+        <td>{{ periods.get('P2','') }}</td>
+        <td>Break</td>
+        <td>{{ periods.get('P3','') }}</td>
+        <td>{{ periods.get('P4','') }}</td>
+        <td>Lunch</td>
+        <td>{{ periods.get('P5','') }}</td>
+        <td>{{ periods.get('P6','') }}</td>
+        <td>{{ periods.get('P7','') }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+</body>
+<br><br>
+<a href="{{ url_for('download_csv') }}">
+    <button>Download CSV</button>
+</a>
+</html>
